@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Render Raw HTML
  * Plugin URI: https://github.com/OyvindSabo/render-raw-html
- * Version: 0.1.0
+ * Version: 0.2.0
  * Author: Øyvind Sæbø
  * Author URI: http://oyvindsabo.com/
  * Description: A plugin for WordPress that enables you to serve a single HTML document, e.g. a single-page application, without interference from themes or global styles.
@@ -96,26 +96,6 @@ call_user_func(function () {
         add_submenu_page('options-general.php', $pluginDisplayName, $pluginDisplayName, 'manage_options', $pluginName, $adminPanel);
     };
 
-    $dashboardNotices = function () use ($plugin_db_welcome_dismissed_key, $pagenow, $pluginName, $pluginDisplayName, $pluginFolder) {
-        if (get_option($plugin_db_welcome_dismissed_key)) {
-            return;
-        }
-        if ($pagenow == 'options-general.php' && isset($_GET['page']) && $_GET['page'] === $pluginName) {
-            return;
-        }
-        $setting_page = admin_url('options-general.php?page=' . $pluginName);
-        // load the notices view
-        include_once $pluginFolder . '/views/dashboard-notices.php';
-    };
-
-    // Dismiss the welcome notice for the plugin
-    $dismissDashboardNotices = function () use ($pluginName, $plugin_db_welcome_dismissed_key) {
-        check_ajax_referer($pluginName . '-nonce', 'nonce');
-        // user has dismissed the welcome notice
-        update_option($plugin_db_welcome_dismissed_key, 1);
-        exit;
-    };
-
     $withSettingsLink = function ($links) use ($pluginName) {
         $myLinks = array('<a href="options-general.php?page=' . $pluginName . '">Settings</a>');
         return array_merge($links, $myLinks);
@@ -125,7 +105,5 @@ call_user_func(function () {
     add_action('wp', $setUpBuffer, 10, 0);
     add_action('admin_init', $registerSettings);
     add_action('admin_menu', $adminPanelsAndMetaBoxes);
-    add_action('admin_notices', $dashboardNotices);
-    add_action('wp_ajax_' . $pluginName . '_dismiss_dashboard_notices', $dismissDashboardNotices);
     add_filter('plugin_action_links_' . plugin_basename(__FILE__), $withSettingsLink);
 });
