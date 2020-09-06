@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Render Raw HTML
  * Plugin URI: https://github.com/OyvindSabo/render-raw-html
- * Version: 0.2.0
+ * Version: 0.2.1
  * Author: Øyvind Sæbø
  * Author URI: http://oyvindsabo.com/
  * Description: A plugin for WordPress that enables you to serve a single HTML document, e.g. a single-page application, without interference from themes or global styles.
